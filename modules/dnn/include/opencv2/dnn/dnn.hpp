@@ -293,6 +293,35 @@ CV__DNN_EXPERIMENTAL_NS_BEGIN
         CV_PROP String name; //!< Name of the layer instance, can be used for logging or other internal purposes.
         CV_PROP String type; //!< Type name which was used for creating layer by layer factory.
 
+        CV_WRAP float getLayerParam_float(const String& key, float d = 0)
+        {
+            return _params.get<float>(key, d);
+        }
+
+        CV_WRAP int getLayerParam_int(const String& key, int d = 0)
+        {
+            return _params.get<int>(key, d);
+        }
+
+        CV_WRAP String getLayerParam_str(const String& key, const String& d = "")
+        {
+            return _params.get<String>(key, d);
+        }
+
+        CV_WRAP bool getLayerParam_bool(const String& key, bool d = false)
+        {
+            return _params.get<bool>(key, d);
+        }
+
+
+        // template<typename T>
+        // CV_WRAP T getLayerParam(const String& key, const T& defaultValue)
+        // {
+
+        // }
+
+        LayerParams _params;
+
         Layer();
         explicit Layer(const LayerParams &params);      //!< Initializes only #name, #type and #blobs fields.
         void setParamsFrom(const LayerParams &params);  //!< Initializes only #name, #type and #blobs fields.
@@ -345,7 +374,7 @@ CV__DNN_EXPERIMENTAL_NS_BEGIN
         CV_WRAP Ptr<Layer> getLayer(LayerId layerId);
 
         /** @brief Returns pointers to input layers of specific layer. */
-        std::vector<Ptr<Layer> > getLayerInputs(LayerId layerId); // FIXIT: CV_WRAP
+        CV_WRAP std::vector<int> getLayerInputs(LayerId layerId);
 
         /** @brief Delete layer for the network (not implemented yet) */
         CV_WRAP void deleteLayer(LayerId layer);

@@ -1680,17 +1680,17 @@ Ptr<Layer> Net::getLayer(LayerId layerId)
     return ld.getLayerInstance();
 }
 
-std::vector<Ptr<Layer> > Net::getLayerInputs(LayerId layerId)
+std::vector<int> Net::getLayerInputs(LayerId layerId)
 {
     LayerData &ld = impl->getLayerData(layerId);
     if (!ld.layerInstance)
         CV_Error(Error::StsNullPtr, format("Requested layer \"%s\" was not initialized", ld.name.c_str()));
 
-    std::vector<Ptr<Layer> > inputLayers;
+    std::vector<int> inputLayers;
     inputLayers.reserve(ld.inputLayersId.size());
     std::set<int>::iterator it;
     for (it = ld.inputLayersId.begin(); it != ld.inputLayersId.end(); ++it) {
-        inputLayers.push_back(getLayer(*it));
+        inputLayers.push_back(*it);
     }
     return inputLayers;
 }
@@ -1990,7 +1990,7 @@ Importer::~Importer() {}
 Layer::Layer() {}
 
 Layer::Layer(const LayerParams &params)
-    : blobs(params.blobs), name(params.name), type(params.type)
+    : blobs(params.blobs), name(params.name), type(params.type), _params(params)
 {
 
 }
@@ -2000,6 +2000,7 @@ void Layer::setParamsFrom(const LayerParams &params)
     blobs = params.blobs;
     name = params.name;
     type = params.type;
+    _params = params;
 }
 
 int Layer::inputNameToIndex(String)
