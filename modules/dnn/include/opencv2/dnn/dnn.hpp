@@ -405,7 +405,7 @@ CV__DNN_EXPERIMENTAL_NS_BEGIN
          *  @param outputBlobs contains blobs for first outputs of specified layers.
          *  @param outBlobNames names for layers which outputs are needed to get
          */
-        CV_WRAP void forward(std::vector<Mat>& outputBlobs,
+        CV_WRAP void forward(CV_OUT std::vector<Mat>& outputBlobs,
                              const std::vector<String>& outBlobNames);
 
         /** @brief Runs forward pass to compute outputs of layers listed in @p outBlobNames.
