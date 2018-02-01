@@ -452,7 +452,7 @@ bool ocl4dnnGEMV<float>(const CBLAS_TRANSPOSE TransA,
         uint row_size = M;
         uint col_size = N;
         size_t localsize[] = { 128 };
-        size_t globalsize[] = { row_size / 4 * localsize[0] };
+        size_t globalsize[] = { std::max(row_size / 4, uint(1)) * localsize[0] };
 
         uint argId = 0;
         k.set(argId++, ocl::KernelArg::PtrReadOnly(A));
